@@ -1,0 +1,53 @@
+services:
+  minio:
+    build:
+      context: .
+      dockerfile: docker/MinIO.Dockerfile
+    command: server /data --console-address ':9001'
+    ports:
+      - '127.0.0.1:9000:9000'
+      - '127.0.0.1:9001:9001'
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio-data:/data
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    profiles: [monitoring]
+    ports:
+      - '127.0.0.1:9091:9090'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+  grafana:
+    image: grafana/grafana:12.1.1
+    profiles: [monitoring]
+    ports:
+      - '127.0.0.1:3000:3000'
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: sis2admin
+      GF_USERS_ALLOW_SIGN_UP: 'false'
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+  k6:
+    image: grafana/k6:2.2.0
+    profiles: [load]
+    working_dir: /work
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    volumes:
+      - .:/work:ro
+    environment:
+      BASE_URL: http://host.docker.internal:8080
+      GRPC_ADDR: host.docker.internal:9090
+    command: run scripts/k6.js
+volumes:
+  minio-data:
+  prometheus-data:
+  grafana-data:

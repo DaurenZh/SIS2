@@ -1,0 +1,6 @@
+.tools/
+*.db
+*.db-shm
+*.db-wal
+objects/
+.env

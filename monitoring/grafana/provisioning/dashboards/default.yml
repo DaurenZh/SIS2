@@ -1,0 +1,10 @@
+apiVersion: 1
+providers:
+  - name: SIS2
+    orgId: 1
+    folder: SIS2
+    type: file
+    disableDeletion: true
+    updateIntervalSeconds: 10
+    options:
+      path: /var/lib/grafana/dashboards

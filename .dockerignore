@@ -1,0 +1,6 @@
+.git
+.tools
+objects
+results
+*.db
+.env

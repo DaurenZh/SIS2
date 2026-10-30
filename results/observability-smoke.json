@@ -1,0 +1,63 @@
+{
+  "verified_at_utc": "2026-10-30T18:16:18.467642+00:00",
+  "prometheus_target": "up",
+  "grafana_dashboard_provisioned": true,
+  "grafana_datasource_health": "OK",
+  "dashboard_queries": [
+    {
+      "panel": "Service scrape health",
+      "promql_valid": true,
+      "series": 1
+    },
+    {
+      "panel": "Completed server attempts / second",
+      "promql_valid": true,
+      "series": 2
+    },
+    {
+      "panel": "Server errors (%)",
+      "promql_valid": true,
+      "series": 2
+    },
+    {
+      "panel": "Server attempt p95 (not client logical-call latency)",
+      "promql_valid": true,
+      "series": 2
+    },
+    {
+      "panel": "Attempts / second by operation",
+      "promql_valid": true,
+      "series": 7
+    },
+    {
+      "panel": "Go heap allocated",
+      "promql_valid": true,
+      "series": 1
+    },
+    {
+      "panel": "Process CPU (100% = one core)",
+      "promql_valid": true,
+      "series": 1
+    },
+    {
+      "panel": "Completed attempts since process start",
+      "promql_valid": true,
+      "series": 2
+    }
+  ],
+  "k6_rest": {
+    "vus": 4,
+    "duration": "15s",
+    "operations": 1124,
+    "failed": 0,
+    "operation_p99_ms": 3
+  },
+  "k6_grpc": {
+    "vus": 4,
+    "duration": "15s",
+    "operations": 1124,
+    "failed": 0,
+    "operation_p99_ms": 4
+  },
+  "note": "k6 values are from the two verified CLI runs; this is a smoke test, not the controlled Go benchmark."
+}

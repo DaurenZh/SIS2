@@ -1,0 +1,28 @@
+Command: SIS2_TEST_MINIO_ENDPOINT=127.0.0.1:9000 go test -race -count=1 ./...
+Real MinIO running via docker compose (official source build).
+
+?   	github.com/DaurenZh/SIS2/cmd/benchmark	[no test files]
+?   	github.com/DaurenZh/SIS2/cmd/server	[no test files]
+?   	github.com/DaurenZh/SIS2/internal/client	[no test files]
+?   	github.com/DaurenZh/SIS2/internal/imagev1	[no test files]
+?   	github.com/DaurenZh/SIS2/internal/rpcspec	[no test files]
+ok  	github.com/DaurenZh/SIS2/internal/service	2.467s
+ok  	github.com/DaurenZh/SIS2/internal/storage	1.621s
+ok  	github.com/DaurenZh/SIS2/internal/transport	3.286s
+
+go vet ./...: PASS (no diagnostic output).
+
+Four-fix regression verification (2026-10-30):
+Command: SIS2_TEST_MINIO_ENDPOINT=127.0.0.1:9000 go test -race -count=1 ./...
+PASS: all packages, including real MinIO upload/download integration.
+PASS: interrupted downloads cannot be accepted as complete HTTP responses.
+PASS: upload replay and conflicting payload checks do not repeat storage writes.
+PASS: fresh MinIO clients sign URLs offline without bucket-region lookups.
+PASS: busy gRPC/REST/metrics ports fail startup without announcing readiness.
+PASS: readiness identifies the actual child PID and is removed on shutdown.
+PASS: shared demo PNG decodes successfully.
+Command: go vet ./...
+PASS: no diagnostic output.
+Benchmark startup checks: normal readiness passed; unrelated HTTP server rejected.
+SHA-256 checks: raw.csv, summary.csv, REPORT.md and environment.txt unchanged.
+Live demo: corrected PNG uploaded successfully through the restarted API to MinIO.

@@ -1,0 +1,8 @@
+UTC: 2026-10-30T17:54:16Z
+go version go1.27.1 darwin/arm64
+Darwin arm64
+Apple M5 Pro
+GOMAXPROCS=2 for server and each client; cleartext loopback; no compression
+3 repetitions; 100 warmup operations; closed-loop; separate processes
+Protocol order alternates in repetition 2; same server/database; isolated owners
+40 seeded READY images per isolated owner; lists return 20; SQLite WAL

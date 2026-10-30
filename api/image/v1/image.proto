@@ -1,32 +1,54 @@
 syntax = "proto3";
-
 package sis.image.v1;
-
 option go_package = "github.com/DaurenZh/SIS2/internal/imagev1";
 
+// Metadata RPCs: image bytes use the REST multipart endpoint and object storage.
 service ImageService {
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
   rpc CreateImage(CreateImageRequest) returns (CreateImageResponse);
+  rpc CompleteUpload(CompleteUploadRequest) returns (GetImageResponse);
   rpc GetImage(GetImageRequest) returns (GetImageResponse);
+  rpc UpdateImage(UpdateImageRequest) returns (GetImageResponse);
+  rpc DeleteImage(DeleteImageRequest) returns (GetImageResponse);
+  rpc ListUserImages(ListUserImagesRequest) returns (ListUserImagesResponse);
+  rpc CreateComment(CreateCommentRequest) returns (CreateCommentResponse);
+  rpc LikeImage(LikeImageRequest) returns (LikeImageResponse);
+  rpc CreateShareLink(CreateShareLinkRequest) returns (CreateShareLinkResponse);
 }
-
+message CreateUserRequest { string username = 1; string idempotency_key = 2; }
+message CreateUserResponse { User user = 1; }
+message User { string user_id = 1; string username = 2; string created_at = 3; }
 message CreateImageRequest {
   string idempotency_key = 1;
   string owner_id = 2;
   string caption = 3;
+  // Demo only: delay AFTER commit, excluded from the business fingerprint.
   int32 response_delay_ms = 4;
+  string object_key = 5;
 }
-
-message CreateImageResponse {
-  Image image = 1;
-}
-
+message CreateImageResponse { Image image = 1; }
 message GetImageRequest { string image_id = 1; }
-
 message GetImageResponse { Image image = 1; }
-
+message CompleteUploadRequest { string image_id = 1; string idempotency_key = 2; }
+message UpdateImageRequest { string image_id = 1; string caption = 2; string idempotency_key = 3; }
+message DeleteImageRequest { string image_id = 1; string idempotency_key = 2; }
+message ListUserImagesRequest { string owner_id = 1; int32 limit = 2; string cursor = 3; }
+message ListUserImagesResponse { repeated Image items = 1; string next_cursor = 2; }
 message Image {
   string image_id = 1;
   string owner_id = 2;
   string caption = 3;
   string status = 4;
+  int64 likes_count = 5;
+  int64 comments_count = 6;
+  int64 shares_count = 7;
+  string object_key = 8;
+  string created_at = 9;
 }
+message CreateCommentRequest { string image_id = 1; string user_id = 2; string text = 3; string idempotency_key = 4; }
+message CreateCommentResponse { Comment comment = 1; }
+message Comment { string comment_id = 1; string image_id = 2; string user_id = 3; string text = 4; string created_at = 5; }
+message LikeImageRequest { string image_id = 1; string user_id = 2; }
+message LikeImageResponse { int64 likes_count = 1; }
+message CreateShareLinkRequest { string image_id = 1; string user_id = 2; int32 expires_in_seconds = 3; string idempotency_key = 4; }
+message CreateShareLinkResponse { string token = 1; string expires_at = 2; }
