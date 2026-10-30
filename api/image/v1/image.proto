@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package sis.image.v1;
+
+option go_package = "github.com/DaurenZh/SIS2/internal/imagev1";
+
+service ImageService {
+  rpc CreateImage(CreateImageRequest) returns (CreateImageResponse);
+  rpc GetImage(GetImageRequest) returns (GetImageResponse);
+}
+
+message CreateImageRequest {
+  string idempotency_key = 1;
+  string owner_id = 2;
+  string caption = 3;
+  int32 response_delay_ms = 4;
+}
+
+message CreateImageResponse {
+  Image image = 1;
+}
+
+message GetImageRequest { string image_id = 1; }
+
+message GetImageResponse { Image image = 1; }
+
+message Image {
+  string image_id = 1;
+  string owner_id = 2;
+  string caption = 3;
+  string status = 4;
+}
