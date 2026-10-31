@@ -25,7 +25,7 @@ import (
 )
 
 // Faults is deterministic: first N matching calls fail, then recover. Counters
-// are atomic because real requests run concurrently. Configure before serving.
+// are atomic because real requests run concurrently. 
 type Faults struct {
 	Method                string
 	Delay                 time.Duration

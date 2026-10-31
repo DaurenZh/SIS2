@@ -77,7 +77,7 @@ flowchart LR
 |---|---|---|
 | Image metadata service | Create, complete upload, get, update caption, soft delete, cursor list | Reduced image model; no tags or variants |
 | Interaction service | Users, comments, likes, share tokens and counters | Same process/database for a small project |
-| DynamoDB / Cassandra | Real SQLite transactions and persistent rows | One local database connection, no replication or sharding |
+| DynamoDB / Cassandra | Real SQLite transactions and persistent rows | One local database connection |
 | S3 | Real MinIO object upload and presigned GET URL | One local MinIO instance, no production durability claim |
 | Async image worker | Synchronous `PENDING -> READY` completion | Resizing, verification of supplied object keys, `PROCESSING` and `FAILED` are mocked/omitted |
 | API gateway, CDN, Redis, auth | Omitted | No caching, access control, or geographic distribution |
@@ -109,7 +109,6 @@ system it remains a reasonable public API, while gRPC connects gateway and
 services. WebSocket is useful for server push; for these request/response methods
 we would have to design our own correlation, errors, deadlines and retry rules.
 Raw HTTP/2 with JSON retains JSON payloads and requires separate API tooling.
-See [ADR 1](docs/DECISIONS.md#1-grpc-with-generated-protobuf).
 
 ## Idempotency: a retry must not duplicate a write
 
