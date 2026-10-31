@@ -39,11 +39,6 @@ on server startup. With it disabled, provision the bucket beforehand.
 `MINIO_REGION` defaults to `us-east-1`; set it if your MinIO uses another region.
 An explicit region lets presigned URLs be generated without contacting MinIO.
 
-Compose builds the pinned official MinIO source release. Published images
-could not be pulled during verification, so this setup does not depend on them.
-The first build downloads Go dependencies; subsequent builds use Docker's cache.
-The source-build approach follows the [official release instructions](https://github.com/minio/minio/releases/tag/RELEASE.2025-10-15T17-29-55Z).
-
 Run the optional **real MinIO** integration test:
 
 ```sh
