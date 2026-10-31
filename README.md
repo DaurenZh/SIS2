@@ -6,10 +6,6 @@ SQLite database, timeout policy, and retry policy. Go was approved in place of
 Java. This is a runnable implementation of part of the SIS #1 architecture;
 it does not claim to serve 100M DAU on a laptop.
 
-Start with [the defense guide](docs/DEFENSE.md), then follow
-[the code walkthrough](docs/WALKTHROUGH.md). [Decisions and alternatives](docs/DECISIONS.md)
-explain why this implementation is appropriate for the assignment.
-
 ## Run and test
 
 Requires Go 1.24+; Docker is needed only for MinIO. Generated Protobuf files are
